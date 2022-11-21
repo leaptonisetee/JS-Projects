@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+
+  </head>
+  <body>
+    <script>
+    	let app = new PIXI.Application({ width: window.screen.width, height: window.screen.height - 150 });
+        let container = new PIXI.Container();
+
+    	document.body.appendChild(app.view);
+
+		let colParameters = -100
+		let rowParameters = 0
+		for (let i = 0; i < 15; ++i)
+		{
+			let sprite = PIXI.Sprite.from('img/kitten' + i + '.jpg');
+			if (i%5 == 0)
+			{
+				colParameters += 100
+				rowParameters = 0
+			}
+	
+			sprite.position.x = rowParameters;
+			sprite.position.y = colParameters;
+			rowParameters += 100
+			container.addChild(sprite)
+		
+		}
+		container.x = app.screen.width / 2;
+		container.y = app.screen.height / 2;
+		container.pivot.x = container.width / 2;
+		container.pivot.y = container.height / 2;
+	  
+	  
+	  app.stage.addChild(container);
+
+	  app.animationUpdate = function(delta){
+		container.rotation += 0.05
+	  }
+
+    function start()
+	{
+		app.ticker.add(app.animationUpdate)
+	  setTimeout(() => {
+		
+  		app.ticker.remove(app.animationUpdate);
+		}, "3000")
+	}
+    </script>
+	<button onclick="start()">Start</button>
+  </body>
+</html>
