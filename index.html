@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
   <head>
-    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
 
   </head>
   <body>
     <script>
-    	let app = new PIXI.Application({ width: window.screen.width, height: window.screen.height - 150 });
+    	let app = new PIXI.Application({ width: 500, height: 100 });
         let container = new PIXI.Container();
 
     	document.body.appendChild(app.view);
@@ -16,29 +16,37 @@
 		for (let i = 0; i < 15; ++i)
 		{
 			let sprite = PIXI.Sprite.from('img/kitten' + i + '.jpg');
-			if (i%5 == 0)
+			if (i%3 == 0)
 			{
 				colParameters += 100
 				rowParameters = 0
 			}
 	
-			sprite.position.x = rowParameters;
-			sprite.position.y = colParameters;
+			sprite.position.x = colParameters;
+			sprite.position.y = rowParameters;
 			rowParameters += 100
 			container.addChild(sprite)
 		
 		}
-		container.x = app.screen.width / 2;
-		container.y = app.screen.height / 2;
-		container.pivot.x = container.width / 2;
-		container.pivot.y = container.height / 2;
+		container.y = -100;
+		
 	  
 	  
-	  app.stage.addChild(container);
+	  	app.stage.addChild(container);
 
-	  app.animationUpdate = function(delta){
-		container.rotation += 0.05
-	  }
+	  	app.animationUpdate = function(delta){
+			let j = 1;
+			for(let i = 0; i < 15; ++i){
+				if(i%6==0)
+					j -= 1.5
+				if (i%3==0)
+					j += 1
+				container.children[i].position.y += 10 * j
+				if(container.children[i].position.y >= 200){
+					container.children[i].position.y = -100;
+				}
+			}
+	  	}
 
     function start()
 	{
@@ -46,7 +54,7 @@
 	  setTimeout(() => {
 		
   		app.ticker.remove(app.animationUpdate);
-		}, "3000")
+		}, "5000")
 	}
     </script>
 	<button onclick="start()">Start</button>
